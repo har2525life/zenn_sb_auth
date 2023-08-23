@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import useAuth from "../api/useAuth";
+import useAuth from "../../api/useAuth";
 
 function Authentication() {
   const { register, handleSubmit, reset } = useForm<Auth>();
