@@ -1,23 +1,11 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+import useAuth from "../api/useAuth";
 
 function Authentication() {
   const { register, handleSubmit, reset } = useForm<Auth>();
-  const [isPage, setIsPage] = useState(false);
-  const changeAuth = (): void => {
-    setIsPage(!isPage);
-    reset();
-  };
+  const { submitLogin, submitSignup, isPage, changeAuth } = useAuth(reset);
 
-  const submitLogin = (event: Auth) => {
-    const { email, password } = event;
-    console.log(email, password);
-  };
-  const submitSignup = (event: Auth) => {
-    const { email, password } = event;
-    console.log(email, password);
-  };
-  const submitAuth = isPage ? submitLogin : submitSignup;
+  const submitAuth = isPage ? submitSignup : submitLogin;
 
   return (
     <div className="p-6 space-y-6 max-w-md mx-auto">
