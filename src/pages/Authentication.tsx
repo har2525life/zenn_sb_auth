@@ -1,23 +1,33 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-function Signup({ changeAuth }: Props) {
+function Authentication() {
   const { register, handleSubmit, reset } = useForm<Auth>();
+  const [isPage, setIsPage] = useState(false);
+  const changeAuth = (): void => {
+    setIsPage(!isPage);
+    reset();
+  };
 
-  const signup = (event: Auth) => {
+  const submitLogin = (event: Auth) => {
     const { email, password } = event;
     console.log(email, password);
   };
+  const submitSignup = (event: Auth) => {
+    const { email, password } = event;
+    console.log(email, password);
+  };
+  const submitAuth = isPage ? submitLogin : submitSignup;
 
-  useEffect(() => {
-    console.log("SignUp");
-    reset();
-  }, [changeAuth]);
-  
   return (
     <div className="p-6 space-y-6 max-w-md mx-auto">
-      <h1 className="font-bold text-2xl text-center">Signup</h1>
-      <form onSubmit={handleSubmit(signup)} className="space-y-4 md:space-y-6">
+      <h1 className="font-bold text-2xl text-center">
+        {isPage ? "Signup" : "Login"}
+      </h1>
+      <form
+        onSubmit={handleSubmit(submitAuth)}
+        className="space-y-4 md:space-y-6"
+      >
         <div>
           <label htmlFor="email" className="block mb-2 text-sm font-medium">
             Your email
@@ -47,7 +57,7 @@ function Signup({ changeAuth }: Props) {
           type="submit"
           className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-blue-300 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
         >
-          SIGNUP
+          {isPage ? "SIGNUP" : "LOGIN"}
         </button>
         <p className="text-sm font-light text-gray-500">
           Don’t have an account yet?
@@ -55,7 +65,7 @@ function Signup({ changeAuth }: Props) {
             onClick={changeAuth}
             className="font-medium text-blue-600 hover:underline hover:cursor-pointer"
           >
-            Login
+            {isPage ? "Login" : "Sign up"}
           </a>
         </p>
       </form>
@@ -63,4 +73,4 @@ function Signup({ changeAuth }: Props) {
   );
 }
 
-export default Signup;
+export default Authentication;
